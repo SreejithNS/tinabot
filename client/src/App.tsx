@@ -2,6 +2,7 @@ import React from 'react';
 import './App.scss';
 import ChatBox from './components/chatbox/ChatBox';
 import PredictionForm from './components/widgets/predictionform';
+import doc from "./images/sdfa.png"
 
 function App() {
   const [start, setStart] = React.useState(false);
@@ -20,9 +21,16 @@ function App() {
             <PredictionForm onResult={() => setStart(true)} />
           </section>
         </>
-      ) : (<section className='flex-fill animate__animated animate__fade d-flex align-items-center justify-content-center'>
+      ) : (<section className='flex-fill animate__animated animate__fade d-flex align-items-start justify-content-center'>
+        <div style={{ width: "300px" }} className='flex-grow-1 h-100 d-flex justify-content-end align-items-center'>
+          <img className="m-4" src={doc} alt="Dr.Tina" />
+        </div>
         <ChatBox />
-      </section>)
+        <div style={{ width: "300px" }} className='flex-fill h-100 d-flex justify-content-end align-items-center'>
+
+        </div>
+      </section>
+      )
       }
     </main>
   );

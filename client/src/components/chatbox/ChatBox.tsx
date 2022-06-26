@@ -54,13 +54,13 @@ const ChatBox = () => {
   }, [messages])
 
   useEffect(() => {
-    send()
+    //send()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
     <div
-      className="w-100 d-flex flex-column justify-content-center align-items-center"
+      className="w-100 flex-grow-1 d-flex flex-column justify-content-center align-items-center"
       style={{ height: '100%' }}
     >
       <div
