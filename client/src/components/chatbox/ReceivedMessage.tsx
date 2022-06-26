@@ -2,16 +2,11 @@ const ReceivedMessage = ({ message }: { message: string }) => {
   return (
     <div
       style={{
-        minHeight: '4vh',
         maxWidth: '80%',
-        width: 'fit-content',
-        background: '#9fe496',
-        borderRadius: '10px',
-        padding: '5px',
+        borderRadius: '8px',
         textAlign: 'left',
-        display: 'flex',
-        alignItems: 'center',
       }}
+      className="p-2 bg-primary text-light border-primary animate__animated animate__fadeInLeft"
     >
       {message}
     </div>

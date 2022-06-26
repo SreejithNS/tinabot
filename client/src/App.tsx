@@ -1,9 +1,10 @@
 import './App.scss';
+import ChatBox from './components/chatbox/ChatBox';
 import PredictionForm from './components/widgets/predictionform';
 
 function App() {
   return (
-    <main className="container-sm h-100 position-relative text-center">
+    <main style={{height:"100vh",maxHeight:"100vh"}} className="container-sm position-relative text-center d-flex flex-column">
       <section className='pt-5'>
         <h1 className="mt-5 fw-bold animate__animated animate__slideInDown">Welcome to the World of Healthy Skin</h1>
       </section>
@@ -14,6 +15,9 @@ function App() {
         </span>
         <PredictionForm />
       </section>
+      {/* {<section className='flex-fill'>
+        <ChatBox />
+      </section>} */}
     </main>
   );
 }
