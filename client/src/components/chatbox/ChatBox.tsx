@@ -1,4 +1,4 @@
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import sendImage from '../../images/send.png';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
@@ -41,6 +41,13 @@ const ChatBox = () => {
     setCurrentMessage('');
   };
 
+  useEffect(() => {
+    var elem = document.getElementById('chatbox');
+    if (elem) {
+      elem.scrollTop = elem.scrollHeight;
+    }
+  }, [messages]);
+
   return (
     <div
       style={{
@@ -61,19 +68,20 @@ const ChatBox = () => {
         }}
       >
         <div
+          id="chatbox"
           style={{
             height: '80vh',
             background: '#66b4db',
             width: '100%',
             overflowY: 'auto',
+            overflowX: 'hidden',
           }}
         >
           {messages.map((message, index) => {
             return (
-              <div>
+              <div key={index}>
                 {message && message.from === 'sender' ? (
                   <div
-                    key={index}
                     style={{
                       display: 'flex',
                       flexDirection: 'row-reverse',
@@ -87,7 +95,6 @@ const ChatBox = () => {
                   </div>
                 ) : (
                   <div
-                    key={index}
                     style={{
                       display: 'flex',
                       flexDirection: 'row',
