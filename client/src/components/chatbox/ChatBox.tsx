@@ -1,4 +1,5 @@
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { KeyboardEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useChatBot } from '../api';
 import ReceivedMessage from './ReceivedMessage';
 import SentMessage from './SentMessage';
 
@@ -6,20 +7,27 @@ const ChatBox = () => {
   const [currentMessage, setCurrentMessage] = useState('');
   const [messages, setMessages] = useState<{ from: string; message: string }[]>([]);
 
+  const { send, loading } = useChatBot({
+    onMessage: (chat) => {
+      receiveMessage(chat);
+    }
+  });
+
   const conversationRef = useRef<HTMLDivElement>(null);
 
-  const sendMessage = () => {
+  const sendMessage = useCallback(() => {
     if (currentMessage) {
-      setMessages([
+      setMessages(messages => [
         ...messages,
         {
           from: 'sender',
           message: currentMessage,
         },
       ]);
+      send(currentMessage);
       setCurrentMessage('');
     }
-  };
+  }, [currentMessage, send]);
 
   const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -27,16 +35,16 @@ const ChatBox = () => {
     }
   };
 
-  const receiveMessage = () => {
-    setMessages([
+  const receiveMessage = useCallback((message: string) => {
+    setMessages(messages => [
       ...messages,
       {
         from: 'receiver',
-        message: currentMessage ? currentMessage : 'Hello',
+        message: message,
       },
     ]);
     setCurrentMessage('');
-  };
+  }, [setMessages, setCurrentMessage]);
 
   useEffect(() => {
     if (conversationRef.current) {
@@ -45,6 +53,10 @@ const ChatBox = () => {
     }
   }, [messages])
 
+  useEffect(() => {
+    send()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div
@@ -96,11 +108,9 @@ const ChatBox = () => {
           className="form-control m-2 flex-grow-1"
           placeholder='Type your message here...'
         />
-        <button className="btn btn-primary m-2" onClick={() => sendMessage()}>
+        <button disabled={loading} className={"btn btn-primary m-2 " + (loading ? "disabled" : "")} onClick={() => sendMessage()}>
           Send
-        </button>
-        <button className="btn btn-primary m-2" onClick={() => receiveMessage()}>
-          Receive
+          {loading && <span className="spinner-border ml-2 spinner-border-sm" />}
         </button>
       </div>
     </div>

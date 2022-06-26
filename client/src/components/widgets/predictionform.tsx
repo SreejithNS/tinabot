@@ -1,7 +1,7 @@
 import React from "react";
 import { useModel } from "../api";
 
-export default function PredictionForm() {
+export default function PredictionForm({ onResult }: { onResult: (result: any) => void }) {
     const { predict, data, loading, error } = useModel();
     const formRef = React.useRef<HTMLFormElement>(null);
 
@@ -16,13 +16,17 @@ export default function PredictionForm() {
         [predict, formRef]
     );
 
+    React.useEffect(() => {
+        if (data) {
+            onResult(data);
+        }
+    }, [data, onResult]);
+
+
     return (
         <>
             <form className="form animate__animated animate__fadeIn" ref={formRef} onSubmit={handleSubmit}>
                 <div className="my-3">
-                    {/* <label className="form-label" htmlFor="image">
-                        Image
-                    </label> */}
                     <input required className="form-control animate__animated animate__pulse" data-testid="file" type="file" name="file" id="image" />
                 </div>
                 <button disabled={loading} className={`btn btn-primary ${loading ? "disabled" : ""}`} type="submit">
@@ -33,13 +37,13 @@ export default function PredictionForm() {
             {
                 error && <div className="my-3 alert alert-danger">{error.message}</div>
             }
-            <div className={"my-3 fade alert alert-primary alert-dismissible " + (data ? "show" : "hide")} role="alert">
+            {/* <div className={"my-3 fade alert alert-primary alert-dismissible " + (data ? "show" : "hide")} role="alert">
                 {data?.map((data, k) => (
                     <div key={k}>
                         {data[0]}:{data[1]}
                     </div>
                 ))}
-            </div>
+            </div> */}
         </>
     );
 }
