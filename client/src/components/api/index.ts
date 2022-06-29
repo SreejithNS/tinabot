@@ -71,7 +71,7 @@ export function useChatBot(props: { onMessage: (message: string) => void }) {
             data: request,
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer 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"
+                "Authorization": "Bearer <YOUR_API_SECRET_HERE>"
             },
         }).then((response) => {
             setPrompt(request.prompt + response.data.choices[0]?.text);
